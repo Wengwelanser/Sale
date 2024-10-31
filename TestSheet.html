@@ -245,7 +245,8 @@
                 })
                 .filter(Boolean);
             const transactionDetails = transactions.join(', ');
-            listItem.innerText = `已銷售的商品: ${transactionDetails} | 總金額: ${total.toFixed(2)} 元`;
+            const transactionTime = new Date().toLocaleString(); // 獲取當前時間
+            listItem.innerText = `已銷售的商品: ${transactionDetails} | 總金額: ${total.toFixed(2)} 元 | 交易時間: ${transactionTime}`;
             transactionList.appendChild(listItem);
         }
 
