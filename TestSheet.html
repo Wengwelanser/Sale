@@ -61,7 +61,7 @@
             vertical-align: top;
             max-width: 200px;
         }
-        .checkout-button, .modal-button {
+        .checkout-button, .modal-button, .copy-button {
             display: block;
             width: 100%; /* 按鈕的寬度為表格的寬度 */
             padding: 10px;
@@ -73,7 +73,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .checkout-button:hover, .modal-button:hover {
+        .checkout-button:hover, .modal-button:hover, .copy-button:hover {
             background-color: #218838;
         }
 
@@ -160,6 +160,7 @@
         </table>
         
         <button class="checkout-button" onclick="checkout()">結帳</button>
+        <button class="copy-button" onclick="copyTransactionRecords()">複製交易紀錄</button>
         <div class="total">總金額: <span id="totalAmount">0.00</span> 元</div>
         <div class="footer">
             <p>感謝您的光臨！</p>
@@ -274,6 +275,22 @@
             document.getElementById('modalMessage').innerText = modalMessage;
             document.getElementById('transactionModal').style.display = "block"; // 顯示模態框
             document.getElementById('transactionModal').focus(); // 將焦點移至模態框
+        }
+
+        function copyTransactionRecords() {
+            const transactionList = document.getElementById('transactionList');
+            const transactions = Array.from(transactionList.children).map(item => item.innerText).join('\n');
+            navigator.clipboard.writeText(transactions).then(() => {
+                showCopyConfirmation(transactionList.children.length); // 顯示複製確認
+            }, err => {
+                console.error('複製失敗:', err);
+            });
+        }
+
+        function showCopyConfirmation(count) {
+            const modalMessage = `所有交易紀錄已複製，共複製 ${count} 筆交易。`;
+            document.getElementById('modalMessage').innerText = modalMessage;
+            document.getElementById('transactionModal').style.display = "block"; // 顯示模態框
         }
 
         // 監聽鍵盤事件，按下 Enter 鍵時確認模態框
