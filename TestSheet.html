@@ -21,7 +21,7 @@
         }
         h2 {
             text-align: center;
-            font-size: 1.5em; /* 增加標題字體大小 */
+            font-size: 1.5em; /* 標題字體大小 */
         }
         table {
             width: 100%;
@@ -30,9 +30,9 @@
         }
         th, td {
             border: 1px solid #000;
-            padding: 12px; /* 增加單元格內邊距 */
+            padding: 12px; /* 單元格內邊距 */
             text-align: left;
-            font-size: 1.2em; /* 增加字體大小 */
+            font-size: 1.1em; /* 表格字體大小 */
         }
         th {
             background-color: #f2f2f2;
@@ -61,19 +61,19 @@
             vertical-align: top;
             max-width: 200px;
         }
-        .checkout-button {
+        .checkout-button, .modal-button {
             display: block;
             width: 100%; /* 按鈕的寬度為表格的寬度 */
             padding: 10px;
             margin: 10px auto;
-            font-size: 1.2em;
+            font-size: 1.2em; /* 按鈕字體大小 */
             color: white;
             background-color: #28a745;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .checkout-button:hover {
+        .checkout-button:hover, .modal-button:hover {
             background-color: #218838;
         }
 
@@ -111,11 +111,8 @@
             cursor: pointer;
         }
         .modal-message {
-            font-size: 1.5em; /* 增大模态框中的文字 */
+            font-size: 1.2em; /* 增大模态框中的文字 */
             margin: 20px 0; /* 增加上下边距 */
-        }
-        .modal-button {
-            margin-top: 20px;
         }
 
         /* 使输入框在小屏幕上更易于使用 */
@@ -123,7 +120,7 @@
             width: 100%; /* 让输入框占满宽度 */
             box-sizing: border-box; /* 包括内边距和边框在内的总宽度 */
             padding: 8px; /* 增加内边距 */
-            font-size: 1.2em; /* 增加字体大小 */
+            font-size: 1.1em; /* 增加字体大小 */
             inputmode: "numeric"; /* 设定输入模式为数字 */
         }
     </style>
@@ -170,7 +167,7 @@
     </div>
 
     <div class="transaction-info">
-        <h3>第 <span id="transactionCount">0</span> 筆交易</h3>
+        <h3>已完成 <span id="transactionCount">0</span> 筆交易</h3>
         <div class="transaction-log">
             <h4>交易紀錄</h4>
             <ul id="transactionList"></ul>
