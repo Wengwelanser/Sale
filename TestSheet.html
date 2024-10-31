@@ -58,7 +58,7 @@
         }
         .checkout-button {
             display: block;
-            width: 150%; /* 按鈕的寬度為總金額的150% */
+            width: 100%; /* 按鈕的寬度為表格的寬度 */
             padding: 10px;
             margin: 10px auto;
             font-size: 1.2em;
@@ -202,30 +202,9 @@
         }
 
         function moveToNextRow(event, input) {
-            // 只在冷泡茶的數量欄中按下 Enter 鍵進行紀錄
-            if (input.closest('tr').cells[0].innerText === '冷泡茶' && event.key === 'Enter') {
+            const nextRow = input.closest('tr').nextElementSibling;
+            if (event.key === 'Enter') {
                 event.preventDefault(); // 防止提交表單
-                const rows = document.querySelectorAll('tbody tr');
-                let transactions = [];
-                let transactionTotal = 0;
-
-                rows.forEach(row => {
-                    const productName = row.cells[0].innerText;
-                    const quantity = parseInt(row.querySelector('input').value) || 0; // 獲取數量
-                    const price = parseFloat(row.cells[1].innerText);
-                    const total = price * quantity; // 計算總價
-
-                    if (quantity > 0) {
-                        transactions.push({ productName, quantity }); // 僅記錄商品及數量
-                        transactionTotal += total; // 計算此次交易的總金額
-                    }
-                });
-
-                pendingTransactionTotal = transactionTotal; // 暫存總金額
-                showTransactionConfirmation(transactionCount + 1, transactionTotal); // 顯示確認彈窗
-            } else if (event.key === 'Enter') {
-                event.preventDefault(); // 防止提交表單
-                const nextRow = input.closest('tr').nextElementSibling;
                 if (nextRow) {
                     const nextInput = nextRow.querySelector('input');
                     if (nextInput) {
