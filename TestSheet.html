@@ -180,7 +180,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal()">×</span>
             <p id="modalMessage" class="modal-message"></p>
-            <button class="modal-button" onclick="closeModal()">關閉</button>
+            <button class="modal-button" onclick="confirmTransaction()">確認紀錄</button>
         </div>
     </div>
 
@@ -296,7 +296,7 @@
         // 監聽鍵盤事件，按下 Enter 鍵時確認模態框
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' && document.getElementById('transactionModal').style.display === "block") {
-                closeModal(); // 關閉模態框
+                confirmTransaction();
             }
         });
 
