@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="zh-Hant"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>迎雁軒園遊會美食銷售表</title>
@@ -54,6 +56,21 @@
             vertical-align: top;
             max-width: 200px;
         }
+        .checkout-button {
+            display: block;
+            width: 150%; /* 按鈕的寬度為總金額的150% */
+            padding: 10px;
+            margin: 10px auto;
+            font-size: 1.2em;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .checkout-button:hover {
+            background-color: #218838;
+        }
 
         /* Custom Modal Styles */
         .modal {
@@ -102,6 +119,7 @@
             box-sizing: border-box; /* 包括内边距和边框在内的总宽度 */
             padding: 8px; /* 增加内边距 */
             font-size: 1em; /* 增加字体大小 */
+            inputmode: "numeric"; /* 设定输入模式为数字 */
         }
     </style>
 </head>
@@ -119,37 +137,27 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>泰奶</td>
-                    <td>10.00</td>
-                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)"></td>
+                    <td>泰式奶茶</td>
+                    <td>25.00</td>
+                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)" inputmode="numeric"></td>
                     <td class="item-total">0.00</td>
                 </tr>
                 <tr>
-                    <td>泰綠</td>
-                    <td>10.00</td>
-                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)"></td>
+                    <td>冷萃咖啡</td>
+                    <td>25.00</td>
+                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)" inputmode="numeric"></td>
                     <td class="item-total">0.00</td>
                 </tr>
                 <tr>
                     <td>冷泡茶</td>
-                    <td>10.00</td>
-                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)"></td>
-                    <td class="item-total">0.00</td>
-                </tr>
-                <tr>
-                    <td>零食包</td>
-                    <td>5.00</td>
-                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)"></td>
-                    <td class="item-total">0.00</td>
-                </tr>
-                <tr>
-                    <td>春卷</td>
                     <td>15.00</td>
-                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)"></td>
+                    <td><input type="number" value="" min="0" onchange="calculateTotal()" onkeypress="moveToNextRow(event, this)" inputmode="numeric"></td>
                     <td class="item-total">0.00</td>
                 </tr>
             </tbody>
         </table>
+        
+        <button class="checkout-button" onclick="checkout()">結帳</button>
         <div class="total">總金額: <span id="totalAmount">0.00</span> 元</div>
         <div class="footer">
             <p>感謝您的光臨！</p>
@@ -194,8 +202,8 @@
         }
 
         function moveToNextRow(event, input) {
-            // 只在春卷的數量欄中按下 Enter 鍵進行紀錄
-            if (input.closest('tr').cells[0].innerText === '春卷' && event.key === 'Enter') {
+            // 只在冷泡茶的數量欄中按下 Enter 鍵進行紀錄
+            if (input.closest('tr').cells[0].innerText === '冷泡茶' && event.key === 'Enter') {
                 event.preventDefault(); // 防止提交表單
                 const rows = document.querySelectorAll('tbody tr');
                 let transactions = [];
@@ -275,6 +283,20 @@
             }
         }
 
+        function checkout() {
+            const totalAmount = parseFloat(document.getElementById('totalAmount').innerText);
+            if (totalAmount > 0) {
+                const transactionMessage = `結帳金額: ${totalAmount.toFixed(2)} 元`;
+                alert(transactionMessage); // 使用 alert 顯示結帳金額
+                addTransactionToLog(totalAmount); // 記錄結帳金額
+                transactionCount++; // 增加交易計數器
+                document.getElementById('transactionCount').innerText = transactionCount; // 更新交易計數顯示
+                clearAllInputs(); // 清空所有輸入框
+            } else {
+                alert("請至少選擇一項商品。");
+            }
+        }
+
         // 監聽鍵盤事件，按下 Enter 鍵時確認模態框
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' && document.getElementById('transactionModal').style.display === "block") {
@@ -290,6 +312,5 @@
             }
         });
     </script>
-
-
-</body></html>
+</body>
+</html>
